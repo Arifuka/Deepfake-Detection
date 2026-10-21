@@ -1,57 +1,39 @@
-# Localized Deepfake & AI-Generated Media Detection Pipeline
+# EdgeGuard: On-Device Deepfake Detection for Elderly Users
 
-A privacy-centric, edge-optimized deepfake detection framework designed for local mobile device deployment. This system utilizes a lightweight MobileNetV3 architecture combined with multi-domain feature extraction to identify digital manipulations in raw video streams.
+Final Year Project, International Islamic University Malaysia (IIUM), 2026/2027.
 
-#Framework Architecture & Pipeline Workflow
+## Overview
+A mobile app that detects likely deepfake videos on-device and warns elderly users in clear language. Targeting TikTok users in Malaysia's Klang Valley.
 
-The project is structured into distinct, modular layers to optimize processing speed on edge devices:
-1. External Source and Data Collection: Sourcing from official benchmarks and handling live on-device frame captures.
-2. Initial Heuristic Check: A rapid watermark and known AI-label scanner layer to bypass heavy ML computations when obvious metadata exists.
-3. Preprocessing & Feature Extraction: Utilizes MediaPipe/BlazeFace for background noise reduction and face cropping (resized strictly to `224x224x3`). Extracts spatial artifacts (LBP, GLCM) and frequency-domain flaws (FFT).
-4. Model Training & Optimization: Transfer learning loop via MobileNetV3 minimized with Binary Cross-Entropy loss and optimized into a quantized 8-bit `model.tflite` asset.
-5. Decision & Actuation Layer: Employs a rolling 5-frame safety buffer to smooth visual glitches and trigger real-time UI system warnings.
-6. Reporting & Deployment: Volatile memory purging from RAM to ensure zero user privacy leaks and metadata logging.
+## Status
+Work in progress
 
+## Objectives
+The primary goal of this project is to develop a secure, real-time mobile application that detects AI-generated content on social media, with design focus on usability and trustworthiness for elderly users in Malaysia. Specific objectives include:
 
-
-## Dataset Notice & Terms of Use
-
-This project utilizes the official Celeb-DF (v2) dataset for training and validation evaluation. 
-
-In strict compliance with the dataset's Data Use Agreement (DUA):
-* No Data Distribution: Raw video files, extracted frame tensors, and final trained weights are completely excluded from this repository via local `.gitignore` rules to prevent unauthorized redistribution.
-* Academic Purposes Only: This system is developed solely for non-commercial, academic research as part of a final year project at IIUM.
-* Access Request: External researchers wishing to replicate this training pipeline must request dataset access directly from the original creators at the official [Celeb-DF Repository](https://github.com).
+-To develop a real-time mobile application that helps elderly users detect AI-generated videos on TikTok
+-To evaluate the application by testing its usability and effectiveness with elderly users in Klang Valley
+-To build user trust by ensuring secure data protection and secure use of the application by implementing the Secure Software Development Life Cycle (SSDLC)
 
 
-## Development Environment Setup
+## Architecture
+![Framework](docs/EdgeGuardFramework_v2.png)
+Two parts: an offline training pipeline (Celeb-DF v2, MobileNetV3, INT8 TFLite) and a real-time on-device pipeline (Android).
 
-### Prerequisites
-* Python 3.10+
-* Google Colab (with connected T4 GPU runtime environment)
+## Dataset
+Trained and evaluated on Celeb-DF v2 only. The dataset is NOT included in this repository. Request access from the official source: [[paste link](https://github.com/yuezunli/celeb-deepfakeforensics)].
 
-### Core Dependencies
-Ensure the following libraries are initialized in your workspace:
-```bash
-pip install tensorflow mediapipe opencv-python scikit-learn numpy
-```
+## Results
+Work in progress
 
----
+## Limitations
+- Single dataset, so results do not prove generalization to TikTok content.
+- Android only.
 
-## 📁 Project Directory Schema
-```text
-├── dataset/               # Isolated via .gitignore (Local/Cloud storage only)
-│   ├── train/             # 80% Stratified Training Split (Real / Fake folders)
-│   └── validation/        # 20% Stratified Validation Split (Real / Fake folders)
-├── scripts/
-│   ├── preprocess.py      # MediaPipe Face Cropping & Frame Sampling
-│   └── train_pipeline.py  # MobileNetV3 Transfer Learning & TFLite Quantization
-├── .gitignore             # Strict exclusion matrix for model weights & raw videos
-├── LICENSE                # MIT Open-Source Code License
-└── README.md              # Project Documentation Matrix
-```
+## How to run
+[Fill in later: Colab notebook name, how to open the Android project.]
 
----
+## License and ethics
+This project is licensed under the **MIT License**. 
 
-## Code License
-The code implementation within this repository is open-sourced under the MIT License.
+We chose this license because **EdgeGuard** is designed to be an open framework for on-device security. We want to encourage academic research, community experimentation, and widespread adoption. The MIT License allows anyone to freely clone, modify, and integrate this pipeline into their own projects—both open-source and commercial—without restrictive bottlenecks. No real user data or face images are stored in this repository.
