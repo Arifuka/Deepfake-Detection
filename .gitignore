@@ -226,3 +226,6 @@ YouTube-real/
 data/
 frames/
 
+*.keras
+*.h5
+faces/
