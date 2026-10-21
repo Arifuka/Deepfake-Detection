@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+Celeb-real/
+Celeb-synthesis/
+YouTube-real/
+*.mp4
+*.zip
+data/
+frames/
+
