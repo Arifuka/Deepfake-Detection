@@ -9,10 +9,13 @@ A mobile app that detects likely deepfake videos on-device and warns elderly use
 Work in progress.
 - [x] Identity-disjoint data split (Celeb-DF v2)
 - [x] Face-crop extraction
-- [x] MobileNetV3 trained (validation results below)
-- [ ] Test-set evaluation (AUC, F1, confusion matrix, per-video results)
-- [ ] Threshold tuning and INT8 TFLite export
-- [ ] Android app (video scoring, smoothing, warning screen)
+- [x] MobileNetV3 trained
+- [x] Test-set evaluation (video-level and frame-level)
+- [x] Alert threshold chosen on validation, checked once on test
+- [x] FP16 TFLite export (INT8 tried and rejected, see Results)
+- [ ] Grad-CAM figures
+- [ ] Android app (live capture, scoring, smoothing, overlay alert, history)
+- [ ] Live test on TikTok video
 - [ ] Usability evaluation with elderly users
 
 ## Objectives
@@ -51,33 +54,53 @@ The split is in `model/splits.csv`. Because of this stricter split, results are 
 - **Model:** MobileNetV3-Large (ImageNet weights), binary classifier, binary cross-entropy loss, Adam.
 - **Training:** phase 1 trained the new head only (lr 1e-3, 5 epochs); phase 2 fine-tuned the full network (lr 1e-5, 10 epochs). The best epoch was chosen by validation AUC.
 - **Augmentation (train only):** random JPEG compression (quality 30-75), horizontal flip, brightness change. This approximates social-media compression.
+- **Export:** converted to TensorFlow Lite with FP16 weights (`model/edgeguard_model.tflite`, about 6 MB). Input: float32 [1, 224, 224, 3], pixel values 0-255. Output: probability that the face is fake.
+- **Alert rule:** the app warns when at least 4 of the last 5 frame scores exceed 0.70, and clears the alert below 0.40. The 0.70 level was chosen on validation, then checked once on test. The 0.40 clear level is a design choice and was not tuned.
 
-## Results so far (validation only)
-| Phase | Train AUC | Val AUC |
+## Results
+Evaluated once on the held-out test split: 12 identities never seen in training or validation (279 videos, 2,785 face crops).
+
+| Metric (test) | Value |
+|---|---|
+| Video-level AUC (mean of frame scores) | 0.991 |
+| Frame-level AUC | 0.967 |
+| Frame-level F1 at threshold 0.5 | 0.899 |
+| Fake frames caught / real frames wrongly flagged (at 0.5) | 85.9% / 6.8% |
+| Alert rule (4 of 5 frames above 0.70): fake videos caught | 82% |
+| Alert rule: real videos wrongly alerted | about 1% |
+
+Validation AUC (frame level): <FILL IN: your phase 2 best val AUC> (6 identities, so noisy).
+
+Training was run twice; the first run scored video AUC 0.994 and the final run 0.991, so differences of about 0.003 are run-to-run noise. The reported model and numbers are from the final run.
+
+### Export check (600 test frames)
+| Version | AUC | Size |
 |---|---|---|
-| 1 (frozen base) | 0.751 | 0.687 |
-| 2 (fine-tuned) | 0.984 | 0.963 |
+| Keras | 0.968 | 35 MB |
+| TFLite INT8 | 0.645 | 3.5 MB |
+| TFLite FP16 (used) | 0.970 | 6.0 MB |
 
-These are per-image scores on only 6 validation identities, and the same data was used to select the best epoch, so they are optimistic. Test-set results will be added after evaluation.
+INT8 post-training quantization badly reduced accuracy, so FP16 is used.
 
 ## Limitations
-- Single dataset: results do not show generalization to TikTok or other deepfake methods.
-- Small validation (6 identities) and test (12 identities) sets give noisy metrics.
+- Single dataset: Celeb-DF v2 has one fake-generation method. These scores do not show how the model performs on TikTok or other deepfake methods. That is tested separately in the live app.
+- Small validation (6 identities) and test (12 identities) sets give noisy metrics; the alert threshold was chosen on a small validation set.
 - Many fake videos were dropped to keep the split identity-disjoint.
-- Scores so far are per image, not per video.
-- Compression augmentation is a simulation of real platform compression.
-- The Android app is not built yet, and iOS is not planned.
+- Single training run per reported model; no repeated seeds or confidence intervals.
+- Compression augmentation only approximates real platform compression.
+- Grad-CAM is a visual aid and does not prove the model is right.
+- Android only; iOS is not planned.
 
 ## Repository structure
-- `model/` notebook and `splits.csv`
+- `model/` notebook, `splits.csv`, and `edgeguard_model.tflite`
 - `android-app/` Android Studio project
 - `docs/` framework diagram
-- `results/` evaluation outputs (to be added)
+- `results/` evaluation outputs and Grad-CAM figures (to be added)
 
 ## How to reproduce
 1. Request and download Celeb-DF v2, and place the zip in your Google Drive.
 2. Open `model/deepfake_detection.ipynb` in Google Colab with a T4 GPU.
-3. Run the cells in order: unzip, split, face extraction, training. Adjust the Drive paths to match yours.
+3. Run the cells in order: unzip, split, face extraction, training, test evaluation, threshold selection, TFLite export. Adjust the Drive paths to match yours.
 
 ## License and ethics
 This project is licensed under the **MIT License**. 
