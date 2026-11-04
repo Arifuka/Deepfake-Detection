@@ -37,6 +37,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.mediapipe:tasks-vision:0.10.14")
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

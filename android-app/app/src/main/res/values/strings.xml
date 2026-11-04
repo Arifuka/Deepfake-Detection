@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">EdgeGuard</string>
     <!-- Splash Screen -->
     <string name="splash_title">EDGEGUARD: PENGESANAN DEEPFAKE</string>
     <!-- Language Selection Screen -->
@@ -159,3 +160,4 @@
         <string name="advice_consult_trusted_person_action">Consult a family member or someone you trust before acting on the video</string>
 
 </resources>
+
