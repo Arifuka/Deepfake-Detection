@@ -22,6 +22,9 @@
         <string name="privacy_no_data_leaves_phone">No data leaves your phone.</string>
 
         <string name="btn_agree_and_continue">Agree and continue</string>
+    <string name="tab_main">Main</string>
+    <string name="tab_history">History</string>
+    <string name="tab_settings">Settings</string>
     <!-- Main page -->
         <string name="main_header_title">EDGEGUARD: Deepfake detection</string>
         <string name="section_protection">PROTECTION</string>
