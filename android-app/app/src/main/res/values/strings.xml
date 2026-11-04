@@ -1,3 +1,161 @@
 <resources>
-    <string name="app_name">EdgeGuard</string>
+    <!-- Splash Screen -->
+    <string name="splash_title">EDGEGUARD: PENGESANAN DEEPFAKE</string>
+    <!-- Language Selection Screen -->
+    <string name="language_select_title">Pilih bahasa anda</string>
+    <string name="language_select_subtitle">Choose your language</string>
+    <string name="lang_name_bm">Bahasa Melayu</string>
+    <string name="lang_name_en">English</string>
+    <string name="lang_recommended">Recommended</string>
+    <string name="btn_continue">Continue</string>
+    <!--- Welcoming page and agreement -->
+        <string name="welcome_title">Welcome to EdgeGuard</string>
+        <string name="permission_notice">Before starting, EdgeGuard needs your permission to display alerts when it detects potential deepfake content when you are scrolling TikTok videos.</string>
+
+        <string name="permission_draw_over_apps_title">Draw over other apps</string>
+        <string name="permission_draw_over_apps_desc">Display alert message on TikTok video when a potential fake video is detected.</string>
+
+        <string name="permission_accessibility_title">Accessibility access</string>
+        <string name="permission_accessibility_desc">Allow EdgeGuard detect to detect TikTok videos when you are watching them so it can detect AI-generated content.</string>
+
+        <string name="privacy_no_account_needed">No account needed.</string>
+        <string name="privacy_no_data_leaves_phone">No data leaves your phone.</string>
+
+        <string name="btn_agree_and_continue">Agree and continue</string>
+    <!-- Main page -->
+        <string name="main_header_title">EDGEGUARD: Deepfake detection</string>
+        <string name="section_protection">PROTECTION</string>
+        <string name="protection_description">Detects deepfakes while you scroll TikTok</string>
+        <string name="status_inactive">EdgeGuard is currently not active</string>
+        <string name="status_active">EdgeGuard is now active. Open TikTok and scroll as usual. We will alert you if a potential fake video appears.</string>
+
+        <string name="nav_history">History</string>
+        <string name="nav_main_page">Main Page</string>
+        <string name="nav_settings">Settings</string>
+    <!-- History -->
+        <!-- Dynamic Statistics Placeholders -->
+        <string name="stats_videos_watched">%1$d videos watched</string>
+        <string name="stats_deepfakes_detected">%1$d deepfakes detected</string>
+
+        <!-- History Filters & Badges -->
+        <string name="filter_all">All</string>
+        <string name="filter_fake">Fake</string>
+        <string name="filter_ai_label">AI Label</string>
+        <string name="filter_safe">Safe</string>
+
+        <!-- Dynamic History Record Formatters -->
+        <!-- Usage: getString(R.string.history_item_timestamp, formattedTime) -->
+        <string name="history_item_timestamp">%1$s</string>
+
+        <!-- Item Status Titles -->
+        <string name="status_fake_title">Deepfake detected</string>
+        <string name="status_fake_desc">Detected by EdgeGuard algorithm</string>
+
+        <string name="status_ai_label_title">AI label found</string>
+        <string name="status_ai_label_desc">Identified an AI-generated label indicator</string>
+
+        <string name="status_safe_title">Video seems authentic</string>
+        <string name="status_safe_desc">No AI manipulation detected</string>
+
+        <!-- Generic Dynamic Card Format (Tag + Title + Description + Time) -->
+        <string name="history_record_summary">%1$s • %2$s • %3$s</string>
+
+        <!-- Advisory Details -->
+        <string name="btn_read_aloud">Read aloud</string>
+        <string name="section_you_are_advised_to">You are advised to:</string>
+
+        <!-- Advisory Details: Fake -->
+        <string name="details_fake_title">This video may be fake</string>
+        <string name="details_fake_desc">EdgeGuard found signs the face or image in this video was created using AI. It may be trying to trick you.</string>
+        <string name="advice_avoid_trusting_content">Avoid trusting the content shown in video</string>
+        <string name="advice_avoid_transferring_money">Avoid transferring money based on the video</string>
+        <string name="advice_consult_trusted_person">Consult a family member or someone you trust before acting on the video</string>
+
+        <!-- Advisory Details: AI Label -->
+        <string name="details_ai_label_title">This video has been labeled as AI-generated</string>
+        <string name="details_ai_label_desc">The creator marked this video as an AI-generated. That does not always mean it is a scam, but it is not a real recording.</string>
+        <string name="advice_check_video_source">Check video source before sharing or acting on it</string>
+        <string name="advice_treat_as_ad_or_animation">Treat video like an ad or animation, not a real recording</string>
+        <string name="advice_be_careful_money_or_info">Still be careful if video asks for money or personal information</string>
+
+        <!-- Advisory Details: Safe -->
+        <string name="details_safe_title">No signs of AI were detected</string>
+        <string name="details_safe_desc">EdgeGuard did not find any signs of AI manipulation in this video. No detector is perfect, so stay careful.</string>
+        <string name="advice_report_video">Report the video if something seems wrong</string>
+    <!-- Settings-->
+        <string name="settings_title">Settings</string>
+
+        <!-- Status States -->
+        <string name="settings_status_off_title">EdgeGuard is not working</string>
+        <string name="settings_status_off_desc">Deepfake video detection is currently not active</string>
+
+        <string name="settings_status_on_title">EdgeGuard is protecting you</string>
+        <string name="settings_status_on_desc">Deepfake video detection is turned on</string>
+
+        <!-- Section Headers -->
+        <string name="section_data_and_privacy">DATA &amp; PRIVACY</string>
+        <string name="section_learn_and_get_help">LEARN &amp; GET HELP</string>
+
+        <string name="footer_developed_by">Developed by EdgeGuard</string>
+
+        <!-- Data & Privacy: On-device only -->
+        <string name="setting_on_device_only">On-device only</string>
+        <string name="privacy_on_device_desc_1">Your information stays on your phone.</string>
+        <string name="privacy_on_device_desc_2">Nothing is uploaded or shared.</string>
+
+        <!-- Data & Privacy: Video detection history -->
+        <string name="setting_video_detection_history">Video detection history</string>
+        <string name="privacy_history_auto_delete">Past results are automatically deleted after 3 months.</string>
+
+        <!-- Data & Privacy: Privacy and policy -->
+        <string name="setting_privacy_and_policy">Privacy and policy</string>
+        <string name="privacy_policy_header">How EdgeGuard protects your data</string>
+        <string name="privacy_policy_point_1">EdgeGuard only detects videos you watch in TikTok application. It does not detect videos anywhere else on your phone.</string>
+        <string name="privacy_policy_point_2">EdgeGuard analyzes these videos directly on your device. Nothing is uploaded or shared online.</string>
+        <string name="privacy_policy_point_3">EdgeGuard needs access to the TikTok videos you watch so it can check them for signs of AI manipulation.</string>
+        <string name="privacy_policy_point_4">EdgeGuard does not collect, store, or share your videos or photos, not even with the EdgeGuard team.</string>
+        <string name="privacy_policy_point_5">Your detection history stays on your device, and only you can see it.</string>
+        <string name="privacy_policy_point_6">EdgeGuard was created to protect you, not to monitor you.</string>
+
+        <!-- Learn & Get Help: User manual -->
+        <string name="setting_user_manual">User manual</string>
+        <string name="manual_step_1">Open the EdgeGuard app and click on the switch next to \"Protection\".</string>
+        <string name="manual_step_2">Open TikTok and watch videos as usual.</string>
+        <string name="manual_step_3">EdgeGuard checks every video automatically.</string>
+        <string name="manual_step_4">When EdgeGuard finds signs that a video may be fake, it will let you know right away with a notification on your screen.</string>
+
+        <!-- Learn & Get Help: Support team -->
+        <string name="setting_support_team">Support team</string>
+        <string name="support_header">Need help?</string>
+        <string name="support_description">Our team is ready to help you with EdgeGuard.</string>
+        <string name="btn_call_us">Call us</string>
+        <string name="btn_message_whatsapp">Message us on WhatsApp</string>
+
+        <!-- Common Alert Controls -->
+        <string name="alert_title">Alert</string>
+        <string name="btn_ok">OK</string>
+        <string name="btn_why_am_i_seeing_this">Why am I seeing this?</string>
+        <string name="btn_i_understand_return">I understand, return</string>
+        <string name="section_what_you_should_do">What you should do</string>
+
+        <!-- Alert Dialog: AI Label -->
+        <string name="alert_ai_label_subtitle">This video is labeled as AI-generated</string>
+        <string name="alert_ai_label_desc">Be careful before sharing it. Check the source first.</string>
+
+        <!-- Alert AI Label > Why am I seeing this? -->
+        <string name="explanation_ai_label_desc">The video creator marked this video as an AI-made content. This does not always mean it is a scam, but it is not real recording.</string>
+        <string name="advice_check_source">Check video source</string>
+        <string name="advice_treat_as_ad">Treat the video like an ad or animation, not a real recording</string>
+        <string name="advice_be_careful_money_info">Be careful if it asks for money or personal information</string>
+
+        <!-- Alert Dialog: Fake -->
+        <string name="alert_fake_subtitle">This video may be fake</string>
+        <string name="alert_fake_desc">Avoid trusting video content, sending money or sharing personal details because of this video</string>
+
+        <!-- Alert Fake > Why am I seeing this? -->
+        <string name="explanation_fake_desc">EdgeGuard found signs that the face or image in this video may have been created using AI. It may be meant to mislead you.</string>
+        <string name="advice_avoid_trusting_video_content">Avoid trusting content from this video</string>
+        <string name="advice_avoid_transferring_money_video">Avoid transferring money based on this video</string>
+        <string name="advice_consult_trusted_person_action">Consult a family member or someone you trust before acting on the video</string>
+
 </resources>

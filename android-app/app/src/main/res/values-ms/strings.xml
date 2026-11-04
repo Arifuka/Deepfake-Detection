@@ -1,0 +1,161 @@
+<resources>
+    <!-- Splash Screen -->
+    <string name="splash_title">EDGEGUARD: DEEPFAKE DETECTION</string>
+    <!-- Language Selection Screen -->
+    <string name="language_select_title">Pilih bahasa anda</string>
+    <string name="language_select_subtitle">Choose your language</string>
+    <string name="lang_name_bm">Bahasa Melayu</string>
+    <string name="lang_name_en">English</string>
+    <string name="lang_recommended">Disyorkan</string>
+    <string name="btn_continue">Teruskan</string>
+    <!--- Welcoming page and agreement -->
+    <string name="welcome_title">Selamat datang ke EdgeGuard</string>
+    <string name="permission_notice">Sebelum bermula, EdgeGuard memerlukan kebenaran anda untuk memaparkan mesej apabila ia mengesan kandungan yang disyaki deepfake semasa anda menggunakan TikTok.</string>
+
+    <string name="permission_draw_over_apps_title">Papar di atas aplikasi lain</string>
+    <string name="permission_draw_over_apps_desc">Memaparkan mesej di atas video TikTok apabila video yang disyaki deepfake dikesan.</string>
+
+    <string name="permission_accessibility_title">Kebolehaksesan</string>
+    <string name="permission_accessibility_desc">Membenarkan EdgeGuard mengesan video apabila aplikasi TikTok dibuka untuk mengesan kandungan janaan AI untuk anda.</string>
+
+    <string name="privacy_no_account_needed">Tidak perlu akaun.</string>
+    <string name="privacy_no_data_leaves_phone">Tiada data yang meninggalkan peranti anda.</string>
+
+    <string name="btn_agree_and_continue">Setuju dan teruskan</string>
+    <!-- Main page -->
+    <string name="main_header_title">EDGEGUARD: Pengesanan deepfake</string>
+    <string name="section_protection">PERLINDUNGAN</string>
+    <string name="protection_description">Mengesan deepfake semasa anda melayari TikTok</string>
+    <string name="status_inactive">EdgeGuard kini tidak aktif</string>
+    <string name="status_active">EdgeGuard kini aktif. Buka TikTok dan tatal seperti biasa. Anda akan diberi makluman jika video yang disyaki deepfake muncul.</string>
+
+    <string name="nav_history">Sejarah</string>
+    <string name="nav_main_page">Halaman Utama</string>
+    <string name="nav_settings">Tetapan</string>
+    <!-- History -->
+    <!-- Dynamic Statistics Placeholders -->
+    <string name="stats_videos_watched">%1$d video ditonton</string>
+    <string name="stats_deepfakes_detected">%1$d deepfake dikesan</string>
+
+    <!-- History Filters & Badges -->
+    <string name="filter_all">Semua</string>
+    <string name="filter_fake">Palsu</string>
+    <string name="filter_ai_label">Label A.I</string>
+    <string name="filter_safe">Selamat</string>
+
+    <!-- Dynamic History Record Formatters -->
+    <!-- Usage: getString(R.string.history_item_timestamp, formattedTime) -->
+    <string name="history_item_timestamp">%1$s</string>
+
+    <!-- Item Status Titles -->
+    <string name="status_fake_title">Video deepfake dikesan</string>
+    <string name="status_fake_desc">Dikesan oleh algoritma EdgeGuard</string>
+
+    <string name="status_ai_label_title">Label A.I dikenal pasti</string>
+    <string name="status_ai_label_desc">Penunjuk label kandungan janaan A.I dikenal pasti</string>
+
+    <string name="status_safe_title">Video kelihatan asli</string>
+    <string name="status_safe_desc">Tiada manipulasi A.I dikesan</string>
+
+    <!-- Generic Dynamic Card Format (Tag + Title + Description + Time) -->
+    <string name="history_record_summary">%1$s • %2$s • %3$s</string>
+
+    <!-- Advisory Details -->
+    <string name="btn_read_aloud">Bacakan</string>
+    <string name="section_you_are_advised_to">Anda dinasihatkan supaya:</string>
+
+    <!-- Advisory Details: Fake -->
+    <string name="details_fake_title">Video disyaki palsu</string>
+    <string name="details_fake_desc">EdgeGuard mengesan petunjuk bahawa wajah atau imej dalam video ini dicipta menggunakan A.I. Video ini mungkin cuba memperdayakan anda.</string>
+    <string name="advice_avoid_trusting_content">Elakkan percaya kandungan yang dipaparkan dalam video</string>
+    <string name="advice_avoid_transferring_money">Elakkan memindah wang berdasarkan kandungan video</string>
+    <string name="advice_consult_trusted_person">Rujuk ahli keluarga atau orang yang anda percaya sebelum bertindak berdasarkan video</string>
+
+    <!-- Advisory Details: AI Label -->
+    <string name="details_ai_label_title">Video dilabel sebagai janaan A.I</string>
+    <string name="details_ai_label_desc">Pencipta video menandakan video sebagai janaan A.I. Kandungan video tidak semestinya satu penipuan, tetapi ia bukan rakaman sebenar.</string>
+    <string name="advice_check_video_source">Semak sumber video sebelum berkongsi atau bertindak berdasarkan video</string>
+    <string name="advice_treat_as_ad_or_animation">Anggap video seperti iklan atau animasi, bukan rakaman sebenar</string>
+    <string name="advice_be_careful_money_or_info">Berhati-hati jika video meminta wang atau maklumat peribadi</string>
+
+    <!-- Advisory Details: Safe -->
+    <string name="details_safe_title">Tiada tanda A.I dikesan</string>
+    <string name="details_safe_desc">EdgeGuard tidak menemui tanda manipulasi A.I dalam video. Tiada alat pengesanan yang sempurna, jadi tetap berhati-hati.</string>
+    <string name="advice_report_video">Laporkan video jika terdapat perkara yang mencurigakan</string>
+    <!-- Settings-->
+    <string name="settings_title">Tetapan</string>
+
+    <!-- Status States -->
+    <string name="settings_status_off_title">EdgeGuard tidak berfungsi</string>
+    <string name="settings_status_off_desc">Pengesanan video deepfake tidak aktif</string>
+
+    <string name="settings_status_on_title">EdgeGuard sedang melindungi anda</string>
+    <string name="settings_status_on_desc">Pengesanan video deepfake kini aktif</string>
+
+    <!-- Section Headers -->
+    <string name="section_data_and_privacy">DATA &amp; PRIVASI</string>
+    <string name="section_learn_and_get_help">PANDUAN &amp; BANTUAN</string>
+
+    <string name="footer_developed_by">Dibangunkan oleh EdgeGuard</string>
+
+    <!-- Data & Privacy: On-device only -->
+    <string name="setting_on_device_only">Dalam peranti sahaja</string>
+    <string name="privacy_on_device_desc_1">Maklumat anda kekal dalam peranti anda.</string>
+    <string name="privacy_on_device_desc_2">Tiada yang dimuat naik atau dikongsi dengan mana-mana pihak.</string>
+
+    <!-- Data & Privacy: Video detection history -->
+    <string name="setting_video_detection_history">Sejarah pengesanan video</string>
+    <string name="privacy_history_auto_delete">Rekod pengesanan video terdahulu dipadam secara automatik selepas 3 bulan.</string>
+
+    <!-- Data & Privacy: Privacy and policy -->
+    <string name="setting_privacy_and_policy">Privasi dan polisi</string>
+    <string name="privacy_policy_header">Bagaimana EdgeGuard melindungi data anda</string>
+    <string name="privacy_policy_point_1">EdgeGuard hanya mengesan video yang anda tonton dalam aplikasi TikTok. Video di tempat lain dalam peranti anda tidak dikesan.</string>
+    <string name="privacy_policy_point_2">EdgeGuard mengesan video terus pada peranti anda. Tiada apa-apa yang dimuat naik atau dikongsi dalam talian.</string>
+    <string name="privacy_policy_point_3">EdgeGuard memerlukan akses kepada video TikTok yang anda tonton supaya dapat mengesannya untuk tanda manipulasi A.I.</string>
+    <string name="privacy_policy_point_4">EdgeGuard tidak mengumpul, menyimpan, atau berkongsi video atau foto dalam peranti anda, termasuk dengan pasukan EdgeGuard.</string>
+    <string name="privacy_policy_point_5">Sejarah pengesanan video anda kekal dalam peranti anda dan hanya anda yang boleh melihatnya.</string>
+    <string name="privacy_policy_point_6">EdgeGuard dicipta untuk melindungi anda, bukan mengawasi anda.</string>
+
+    <!-- Learn & Get Help: User manual -->
+    <string name="setting_user_manual">Panduan pengguna</string>
+    <string name="manual_step_1">Buka aplikasi EdgeGuard dan klik suis di sebelah \"Perlindungan\".</string>
+    <string name="manual_step_2">Buka TikTok dan tonton video seperti biasa.</string>
+    <string name="manual_step_3">EdgeGuard akan mengesan setiap tontonan video TikTok anda secara automatik.</string>
+    <string name="manual_step_4">Apabila EdgeGuard mengesan tanda bahawa video yang disyaki palsu, anda akan menerima notifikasi makluman di atas video TikTok serta merta.</string>
+
+    <!-- Learn & Get Help: Support team -->
+    <string name="setting_support_team">Pasukan sokongan</string>
+    <string name="support_header">Perlukan bantuan?</string>
+    <string name="support_description">Pasukan kami sedia membantu anda menggunakan EdgeGuard.</string>
+    <string name="btn_call_us">Hubungi kami</string>
+    <string name="btn_message_whatsapp">Mesej kami melalui WhatsApp</string>
+
+    <!-- Common Alert Controls -->
+    <string name="alert_title">Perhatian</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_why_am_i_seeing_this">Mengapa saya melihat ini?</string>
+    <string name="btn_i_understand_return">Saya faham, Kembali</string>
+    <string name="section_what_you_should_do">Apa yang perlu anda lakukan</string>
+
+    <!-- Alert Dialog: AI Label -->
+    <string name="alert_ai_label_subtitle">Video ini dilabel sebagai janaan A.I</string>
+    <string name="alert_ai_label_desc">Berhati-hati sebelum berkongsi video ini. Semak sumber video terlebih dahulu.</string>
+
+    <!-- Alert AI Label > Why am I seeing this? -->
+    <string name="explanation_ai_label_desc">Pencipta video menandakan video ini sebagai janaan A.I. Kandungan video ini tidak semestinya penipuan, tetapi ia bukan rakaman sebenar.</string>
+    <string name="advice_check_source">Semak sumber muat naik video</string>
+    <string name="advice_treat_as_ad">Anggap video seperti iklan atau animasi, bukan rakaman sebenar</string>
+    <string name="advice_be_careful_money_info">Berhati-hati jika video meminta wang atau maklumat peribadi</string>
+
+    <!-- Alert Dialog: Fake -->
+    <string name="alert_fake_subtitle">Video ini disyaki palsu</string>
+    <string name="alert_fake_desc">Elakkan percaya kandungan video, menghantar wang atau kongsi maklumat peribadi berdasarkan video ini</string>
+
+    <!-- Alert Fake > Why am I seeing this? -->
+    <string name="explanation_fake_desc">EdgeGuard mengesan petunjuk bahawa wajah atau imej dalam video ini mungkin dijana menggunakan A.I. Video ini mungkin cuba memperdayakan anda.</string>
+    <string name="advice_avoid_trusting_video_content">Elakkan mempercayai kandungan video ini</string>
+    <string name="advice_avoid_transferring_money_video">Elakkan memindah wang berdasarkan video ini</string>
+    <string name="advice_consult_trusted_person_action">Rujuk ahli keluarga atau orang yang anda percaya sebelum bertindak berdasarkan video ini</string>
+
+</resources>
