@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Tambahan 1: Kebenaran untuk papar pop-up amaran di atas aplikasi TikTok -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EdgeGuard">
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -25,13 +28,29 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <service
-        android:name=".CaptureService"
-        android:exported="false"
-        android:foregroundServiceType="mediaProjection" />
+        </activity>
+
+        <!-- Servis sedia ada untuk MediaProjection (Stage 1B OCR & Stage 2) -->
+        <service
+            android:name=".CaptureService"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+
+        <!-- Tambahan 2: Servis pantas untuk baca label rasmi TikTok (Stage 1A) -->
+        <service
+            android:name=".aidetection.TikTokAccessibilityService"
+            android:exported="true"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+              <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/tiktok_accessibility_config" />
+        </service>
+
     </application>
 
 </manifest>

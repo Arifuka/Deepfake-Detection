@@ -1,4 +1,4 @@
-package com.example.edgeguard.detection
+package com.example.edgeguard.aidetection
 
 import android.graphics.Bitmap
 import com.google.mlkit.vision.common.InputImage

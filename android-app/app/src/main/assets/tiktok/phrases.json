@@ -1,0 +1,37 @@
+{
+  "exact_phrases": [
+    "ai-generated",
+    "ai generated",
+    "creator labeled as ai-generated",
+    "disclosed by creator as ai-generated",
+    "contains ai-generated media",
+    "dijana ai",
+    "dijana oleh ai",
+    "kandungan dijana ai"
+  ],
+  "ocr_fuzzy_variants": [
+    "al-generated",
+    "a1-generated",
+    "al generated",
+    "a1 generated",
+    "creator iabeled as al-generated",
+    "disclosed by creator as al-generated",
+    "dijana al",
+    "dijana a1",
+    "kandungan dijana al"
+  ],
+  "allowed_hashtags_regex": [
+    "(?i)#ai\\b",
+    "(?i)#aigenerated\\b",
+    "(?i)#dijanaai\\b",
+    "(?i)#aitrend",
+    "(?i)#aicontent",
+    "(?i)#aicartoon",
+    "(?i)#aicartoons",
+    "(?i)#aivideos",
+    "(?i)#aivideo",
+    "(?i)#openai",
+    "(?i)#aiartwork",
+    "(?i)#aiart"
+  ]
+}

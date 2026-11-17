@@ -1,0 +1,8 @@
+{
+  "margin_applied": { "x": 0.02, "y": 0.03 },
+  "per_category_regions": {
+    "tiktok_lower_left_label": {
+      "safe_crop_norm": [0.02, 0.67, 0.62, 0.85]
+    }
+  }
+}

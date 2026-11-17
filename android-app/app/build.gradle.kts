@@ -54,4 +54,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
+    // Stage 1B: Google ML Kit On-Device OCR
+    implementation("com.google.mlkit:text-recognition:16.0.1")
+
+       // support .await() untuk Google Play Services Task
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
 }
