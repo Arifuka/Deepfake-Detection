@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_appearance_card">DISPLAY &amp; LANGUAGE</string>
+    <string name="settings_appearance">Display &amp; language</string>
+    <string name="appearance_text_size">Text size</string>
+    <string name="size_small">Small</string>
+    <string name="size_normal">Normal</string>
+    <string name="size_large">Large</string>
+    <string name="size_xlarge">Extra large</string>
+    <string name="appearance_mode">Screen mode</string>
+    <string name="mode_light">Light</string>
+    <string name="mode_dark">Dark</string>
+    <string name="appearance_font">Font</string>
+    <string name="font_inter">Inter (default)</string>
+    <string name="font_atkinson">Easy-read (Atkinson Hyperlegible)</string>
+    <string name="font_system">Phone\'s own font</string>
+    <string name="appearance_language">Language</string>
+</resources>

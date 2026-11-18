@@ -10,15 +10,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -34,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.edgeguard.R
+import com.example.edgeguard.settings.AppSettings
 import com.example.edgeguard.ui.theme.EdgeGuardColors
 
 /** Order matches the Figma bottom bar: History | Main Page | Settings. */
@@ -51,17 +56,24 @@ enum class AppTab(@StringRes val labelRes: Int, @DrawableRes val iconRes: Int) {
 fun EdgeGuardApp(onStart: () -> Unit, onStop: () -> Unit) {
     var selected by rememberSaveable { mutableIntStateOf(AppTab.Main.ordinal) }
 
+    // white icons at the top in dark mode, dark icons in light mode
+    StatusBarIcons(darkIcons = !AppSettings.dark)
+
+    // plain Text() gets the right colour for light / dark mode
+    CompositionLocalProvider(LocalContentColor provides EdgeGuardColors.TextPrimary) {
     Scaffold(
-        containerColor = Color.White,
+        containerColor = EdgeGuardColors.Background,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),   // each page handles the status bar itself
         bottomBar = { EdgeGuardBottomBar(selected = selected, onSelect = { selected = it }) }
     ) { inner ->
         Box(Modifier.fillMaxSize().padding(inner)) {
             when (AppTab.entries[selected]) {
-                AppTab.History -> PlaceholderPage(R.string.nav_history)   // step 2
-                AppTab.Main -> MainPage(onStart = onStart, onStop = onStop)
-                AppTab.Settings -> PlaceholderPage(R.string.nav_settings) // step 2
+                AppTab.History -> Box(Modifier.statusBarsPadding()) { HistoryScreen() }
+                AppTab.Main -> Box(Modifier.statusBarsPadding()) { MainPage(onStart = onStart, onStop = onStop) }
+                AppTab.Settings -> SettingsScreen(onStart = onStart, onStop = onStop)
             }
         }
+    }
     }
 }
 
@@ -91,7 +103,7 @@ private fun RowScope.NavItem(tab: AppTab, isSelected: Boolean, onClick: () -> Un
                 .clip(RoundedCornerShape(28.dp))
                 .background(if (isSelected) EdgeGuardColors.NavPill else Color.Transparent)
                 .selectable(selected = isSelected, role = Role.Tab, onClick = onClick)
-                .padding(horizontal = 18.dp, vertical = 8.dp),
+                .padding(horizontal = 6.dp, vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
@@ -103,9 +115,10 @@ private fun RowScope.NavItem(tab: AppTab, isSelected: Boolean, onClick: () -> Un
             Text(
                 text = stringResource(tab.labelRes),
                 color = contentColor,
-                fontSize = 16.sp,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
-                maxLines = 1
+                maxLines = 1,
+                softWrap = false
             )
         }
     }

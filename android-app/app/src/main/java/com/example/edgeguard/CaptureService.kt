@@ -26,6 +26,7 @@ import com.example.edgeguard.aidetection.AiLabelOcrScanner
 import com.example.edgeguard.aidetection.EdgeGuardTfliteRunner
 import com.example.edgeguard.aidetection.FftSpectrumExtractor
 import com.example.edgeguard.aidetection.OverlayWarningManager
+import com.example.edgeguard.history.DetectionType
 import com.example.edgeguard.aidetection.RgbNormalizationMode
 import com.google.mediapipe.framework.image.BitmapImageBuilder
 import com.google.mediapipe.tasks.core.BaseOptions
@@ -205,7 +206,7 @@ class CaptureService : Service() {
             noContentCount = 0
             alerting = true
             EdgeGuardState.set(ProtectionState.Alerting)
-            overlayWarningManager?.showAiWarning("Stage 1 OCR ($matchedLabel)")
+            overlayWarningManager?.show(DetectionType.AI_LABEL, "Stage 1 OCR ($matchedLabel)")
 
             val ms = SystemClock.elapsedRealtime() - t0
             Log.d(
@@ -334,7 +335,7 @@ class CaptureService : Service() {
         EdgeGuardState.set(if (alerting) ProtectionState.Alerting else ProtectionState.On)
 
         if (alerting) {
-            overlayWarningManager?.showAiWarning(latestDetectionSource)
+            overlayWarningManager?.show(DetectionType.FAKE, latestDetectionSource)
         } else if (wasAlerting) {
             dismissOverlaySafely()
         }

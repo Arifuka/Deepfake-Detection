@@ -2,6 +2,7 @@ package com.example.edgeguard
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.projection.MediaProjectionManager
@@ -13,7 +14,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.edgeguard.history.HistoryRepository
-import com.example.edgeguard.ui.EdgeGuardApp
+import com.example.edgeguard.settings.AppPrefs
+import com.example.edgeguard.settings.AppSettings
+import com.example.edgeguard.settings.LocaleHelper
+import com.example.edgeguard.ui.EdgeGuardRoot
 import com.example.edgeguard.ui.theme.EdgeGuardTheme
 
 class MainActivity : ComponentActivity() {
@@ -48,17 +52,25 @@ class MainActivity : ComponentActivity() {
         startService(Intent(this, CaptureService::class.java).setAction(CaptureService.ACTION_STOP))
     }
 
+    // Apply the language the user picked (Bahasa Melayu / English).
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleHelper.wrap(newBase, AppPrefs.language(newBase)))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Load dark mode / text size / font the user chose
+        AppSettings.load(this)
 
         // Delete history older than 3 months every time the app opens.
         HistoryRepository.get(this).purgeOld()
 
         setContent {
             // Light theme, no dynamic colours: the Figma design is white + navy for everyone.
-            EdgeGuardTheme(darkTheme = false, dynamicColor = false) {
-                EdgeGuardApp(onStart = { startProtection() }, onStop = { stopProtection() })
+            EdgeGuardTheme(darkTheme = AppSettings.dark, dynamicColor = false) {
+                EdgeGuardRoot(onStart = { startProtection() }, onStop = { stopProtection() })
             }
         }
     }

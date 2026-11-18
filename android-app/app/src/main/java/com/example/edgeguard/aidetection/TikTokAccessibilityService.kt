@@ -3,6 +3,7 @@ package com.example.edgeguard.aidetection
 import android.accessibilityservice.AccessibilityService
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import com.example.edgeguard.history.DetectionType
 import org.json.JSONObject
 
 class TikTokAccessibilityService : AccessibilityService() {
@@ -24,7 +25,7 @@ class TikTokAccessibilityService : AccessibilityService() {
         val rootNode = rootInActiveWindow ?: return
         val matchedLabel = findAiLabelInTree(rootNode, depth = 0)
         if (matchedLabel != null) {
-            overlayManager.showAiWarning("Label Rasmi TikTok: \"$matchedLabel\"")
+            overlayManager.show(DetectionType.AI_LABEL, "Label Rasmi TikTok: \"$matchedLabel\"")
         }
     }
 

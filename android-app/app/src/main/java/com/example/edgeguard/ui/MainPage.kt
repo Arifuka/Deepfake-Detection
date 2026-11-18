@@ -1,6 +1,5 @@
 package com.example.edgeguard.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -22,7 +20,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -58,7 +55,7 @@ fun MainPage(onStart: () -> Unit, onStop: () -> Unit) {
             .padding(horizontal = 20.dp)
     ) {
         Row(Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-            LogoPlaceholder()
+            EdgeGuardLogo(size = 56.dp)
             Spacer(Modifier.width(12.dp))
             Column {
                 Text(title, fontSize = 32.sp, fontWeight = FontWeight.ExtraBold, color = EdgeGuardColors.TextPrimary)
@@ -101,7 +98,7 @@ fun MainPage(onStart: () -> Unit, onStop: () -> Unit) {
                 onCheckedChange = { if (it) onStart() else onStop() },
                 modifier = Modifier.scale(1.3f),
                 colors = SwitchDefaults.colors(
-                    checkedTrackColor = EdgeGuardColors.Navy,
+                    checkedTrackColor = EdgeGuardColors.Accent,
                     checkedThumbColor = Color.White,
                     uncheckedTrackColor = EdgeGuardColors.SwitchOffTrack,
                     uncheckedThumbColor = Color.White,
@@ -124,24 +121,5 @@ fun MainPage(onStart: () -> Unit, onStop: () -> Unit) {
                 textAlign = TextAlign.Center
             )
         }
-    }
-}
-
-/**
- * TODO: replace with the real logo.
- * In Figma: select the logo > Export (right panel) > PNG 2x > save as
- * app/src/main/res/drawable/edgeguard_logo.png, then use:
- *   Image(painterResource(R.drawable.edgeguard_logo), contentDescription = null, modifier = Modifier.size(56.dp))
- */
-@Composable
-private fun LogoPlaceholder() {
-    Box(
-        Modifier
-            .size(56.dp)
-            .clip(CircleShape)
-            .background(EdgeGuardColors.Navy),
-        contentAlignment = Alignment.Center
-    ) {
-        Text("EG", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 20.sp)
     }
 }

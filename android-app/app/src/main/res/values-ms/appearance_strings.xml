@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_appearance_card">PAPARAN &amp; BAHASA</string>
+    <string name="settings_appearance">Paparan &amp; bahasa</string>
+    <string name="appearance_text_size">Saiz tulisan</string>
+    <string name="size_small">Kecil</string>
+    <string name="size_normal">Biasa</string>
+    <string name="size_large">Besar</string>
+    <string name="size_xlarge">Sangat besar</string>
+    <string name="appearance_mode">Mod skrin</string>
+    <string name="mode_light">Cerah</string>
+    <string name="mode_dark">Gelap</string>
+    <string name="appearance_font">Jenis tulisan</string>
+    <string name="font_inter">Inter (lalai)</string>
+    <string name="font_atkinson">Mudah dibaca (Atkinson Hyperlegible)</string>
+    <string name="font_system">Tulisan telefon</string>
+    <string name="appearance_language">Bahasa</string>
+</resources>
