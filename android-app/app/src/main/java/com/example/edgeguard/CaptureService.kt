@@ -154,7 +154,7 @@ class CaptureService : Service() {
 
         makeDetector()
         makeInterpreter()
-        ocrScanner = AiLabelOcrScanner()
+        ocrScanner = AiLabelOcrScanner(this)
         overlayWarningManager = OverlayWarningManager(this)
         tfliteRunner = EdgeGuardTfliteRunner(
             context = this,
@@ -361,6 +361,7 @@ class CaptureService : Service() {
     }
 
     override fun onDestroy() {
+        ocrScanner?.close()
         dismissOverlaySafely()
         display?.release()
         reader?.close()
