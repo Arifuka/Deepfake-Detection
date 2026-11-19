@@ -56,8 +56,8 @@ class OverlayWarningManager(context: Context) {
             }
 
             val bodyView = TextView(appContext).apply {
-                text = "Video ini dikesan dijana oleh AI. Sila semak kesahihan sebelum percaya atau berkongsi.\n" +
-                        "(This video appears AI-generated. Please verify before trusting.)\n\n" +
+                text = "Kandungan atau babak dijana AI dikesan dalam video ini. Sila semak kesahihan sebelum percaya atau berkongsi.\n" +
+                        "(AI-generated content or scenes detected in this video. Please verify before trusting.)\n\n" +
                         "Sumber / Source: $detectionSource"
                 setTextColor(Color.WHITE)
                 textSize = 15f

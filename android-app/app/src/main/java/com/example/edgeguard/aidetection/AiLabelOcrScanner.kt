@@ -20,19 +20,21 @@ class AiLabelOcrScanner(context: Context? = null) {
     private val recognizer: TextRecognizer =
         TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-    // Optional: Pengesan ikon grafik (bintang Gemini, Grok, Sora, Kling) jika model .tflite wujud
     private val logoDetector: AiLogoDetector? = context?.let { AiLogoDetector(it) }
 
     private val targetKeywords = listOf(
-        // 1. Label Pendedahan Rasmi TikTok (EN & BM)
+        // Label Pendedahan Rasmi TikTok (EN & BM + variasi bacaan OCR)
+        "contains ai-generated",
+        "ai-generated media",
         "ai-generated",
-        "creator labeled as ai-generated",
-        "contains ai-generated media",
+        "ai generated",
+        "creator labeled as ai",
+        "labeled as ai-generated",
         "dijana oleh ai",
-        "dilabelkan sebagai dijana oleh ai",
+        "dilabelkan sebagai dijana",
         "mengandungi media dijana ai",
 
-        // 2. Tera Air Penjana Video & Imej AI (yang sering di-repost ke TikTok)
+        // Tera Air Penjana Video & Imej AI
         "sora",
         "veo",
         "runway",
@@ -52,52 +54,54 @@ class AiLabelOcrScanner(context: Context? = null) {
         "grok"
     )
 
-    // Regex ketat dengan sempadan perkataan (\b) supaya tidak tersalah kesan #airpods, #aina, #pakaian
     private val exactHashtagRegex = Regex(
         "(?i)#(ai|aigenerated|deepfake|soraai|klingai|veo|dijanaai)\\b"
     )
-
-    // Perkataan pendek berisiko tinggi dipadankan sebagai perkataan penuh sahaja
     private val strictWordRegex = Regex("(?i)\\b(pika|veo|sora|grok)\\b")
 
-    /**
-     * Mengimbas zon label TikTok (bawah 25%), 4 penjuru (ikon logo & tera air),
-     * serta jalur tepi tengah (tera air terapung) dalam video TikTok.
-     */
     suspend fun scanForAiLabels(fullScreenBitmap: Bitmap): OcrResult = withContext(Dispatchers.Default) {
         val width = fullScreenBitmap.width
         val height = fullScreenBitmap.height
 
-        // 1. Semak 25% Bahagian Bawah (Kapsyen & label natif TikTok)
-        val bottomCropHeight = (height * 0.25).toInt().coerceAtLeast(1)
+        // 1. Semak 42% Bahagian Bawah (Merangkumi pill "Contains AI-generated media", kapsyen & #AI)
+        val bottomCropHeight = (height * 0.42).toInt().coerceAtLeast(1)
         val bottomCropY = height - bottomCropHeight
         val bottomCrop = Bitmap.createBitmap(fullScreenBitmap, 0, bottomCropY, width, bottomCropHeight)
 
-        val bottomText = scanCropAndRecycle(bottomCrop)
+        // Besarkan 2x supaya fon kecil 11sp pada pill label TikTok dapat dibaca jelas oleh ML Kit
+        val upscaledBottom = Bitmap.createScaledBitmap(
+            bottomCrop,
+            (bottomCrop.width * 2).coerceAtMost(2160),
+            (bottomCrop.height * 2).coerceAtMost(2160),
+            true
+        )
+        if (upscaledBottom !== bottomCrop) {
+            bottomCrop.recycle()
+        }
+
+        val bottomText = scanCropAndRecycle(upscaledBottom)
         findKeywordMatch(bottomText)?.let { match ->
             return@withContext OcrResult(isAiDetected = true, matchedKeyword = match)
         }
 
-        // 2. Semak 4 Penjuru Skrin (22% x 22%) untuk tera air teks & ikon logo (Gemini, Grok, dll.)
+        // 2. Semak 4 Penjuru Skrin (22% x 22%) untuk ikon logo grafik & tera air penjuru
         val cornerW = (width * 0.22).toInt().coerceAtLeast(1)
         val cornerH = (height * 0.22).toInt().coerceAtLeast(1)
 
         val corners = listOf(
-            Bitmap.createBitmap(fullScreenBitmap, 0, 0, cornerW, cornerH), // Atas-Kiri
-            Bitmap.createBitmap(fullScreenBitmap, width - cornerW, 0, cornerW, cornerH), // Atas-Kanan
-            Bitmap.createBitmap(fullScreenBitmap, 0, height - cornerH, cornerW, cornerH), // Bawah-Kiri
-            Bitmap.createBitmap(fullScreenBitmap, width - cornerW, height - cornerH, cornerW, cornerH) // Bawah-Kanan
+            Bitmap.createBitmap(fullScreenBitmap, 0, 0, cornerW, cornerH),
+            Bitmap.createBitmap(fullScreenBitmap, width - cornerW, 0, cornerW, cornerH),
+            Bitmap.createBitmap(fullScreenBitmap, 0, height - cornerH, cornerW, cornerH),
+            Bitmap.createBitmap(fullScreenBitmap, width - cornerW, height - cornerH, cornerW, cornerH)
         )
 
         for (corner in corners) {
-            // 2A. Semak ikon logo grafik dahulu (jika ai_logo_classifier.tflite sudah ditambah)
             val detectedLogo = logoDetector?.detectLogoInCorner(corner)
             if (detectedLogo != null) {
                 corners.filter { !it.isRecycled }.forEach { it.recycle() }
                 return@withContext OcrResult(isAiDetected = true, matchedKeyword = "Logo: $detectedLogo")
             }
 
-            // 2B. Semak teks OCR pada penjuru yang sama (scanCropAndRecycle mengitar semula bitmap)
             val cornerText = scanCropAndRecycle(corner)
             val cornerMatch = findKeywordMatch(cornerText)
             if (cornerMatch != null) {
@@ -106,8 +110,8 @@ class AiLabelOcrScanner(context: Context? = null) {
             }
         }
 
-        // 3. Semak Jalur Tengah (y = 35% hingga 65%) untuk tera air terapung dalam video TikTok
-        val midY = (height * 0.35).toInt()
+        // 3. Semak Jalur Tengah (y = 30% hingga 60%) untuk tera air terapung
+        val midY = (height * 0.30).toInt()
         val midH = (height * 0.30).toInt().coerceAtLeast(1)
         val midStrip = Bitmap.createBitmap(fullScreenBitmap, 0, midY, width, midH)
 
@@ -136,16 +140,18 @@ class AiLabelOcrScanner(context: Context? = null) {
     private fun findKeywordMatch(extractedText: String): String? {
         if (extractedText.isBlank()) return null
 
+        val normalized = extractedText.replace('\n', ' ')
+
         val phraseMatch = targetKeywords.firstOrNull { keyword ->
-            extractedText.contains(keyword, ignoreCase = true)
+            normalized.contains(keyword, ignoreCase = true)
         }
         if (phraseMatch != null) return phraseMatch
 
-        strictWordRegex.find(extractedText)?.let { match ->
+        strictWordRegex.find(normalized)?.let { match ->
             return match.value
         }
 
-        if (exactHashtagRegex.containsMatchIn(extractedText)) {
+        if (exactHashtagRegex.containsMatchIn(normalized)) {
             return "#ai"
         }
 

@@ -29,18 +29,15 @@ class TikTokAccessibilityService : AccessibilityService() {
     }
 
     private fun findAiLabelInTree(node: AccessibilityNodeInfo?, depth: Int): String? {
-        if (node == null || depth > 15) return null
+        if (node == null || depth > 25) return null
 
         val nodeText = node.text?.toString()?.trim().orEmpty()
         val contentDesc = node.contentDescription?.toString()?.trim().orEmpty()
+        val combinedText = "$nodeText $contentDesc".trim()
 
-        for (phrase in targetPhrases) {
-            if (nodeText.equals(phrase, ignoreCase = true) ||
-                nodeText.contains(phrase, ignoreCase = true) ||
-                contentDesc.contains(phrase, ignoreCase = true)
-            ) {
-                // Abaikan jika teks datang daripada kapsyen panjang atau @username
-                if (!nodeText.startsWith("@") && nodeText.length <= 60) {
+        if (combinedText.isNotEmpty() && !combinedText.startsWith("@") && combinedText.length <= 80) {
+            for (phrase in targetPhrases) {
+                if (combinedText.contains(phrase, ignoreCase = true)) {
                     return phrase
                 }
             }
@@ -54,13 +51,24 @@ class TikTokAccessibilityService : AccessibilityService() {
     }
 
     private fun loadTargetPhrases(): List<String> {
+        val defaultPhrases = listOf(
+            "contains ai-generated media",
+            "contains ai-generated",
+            "ai-generated",
+            "creator labeled as ai-generated",
+            "disclosed by creator as ai-generated",
+            "dijana oleh ai",
+            "dijana ai",
+            "mengandungi media dijana ai"
+        )
         return try {
             val jsonStr = assets.open("tiktok/phrases.json").bufferedReader().use { it.readText() }
             val root = JSONObject(jsonStr)
             val exact = root.getJSONArray("exact_phrases")
-            List(exact.length()) { idx -> exact.getString(idx) }
+            val fromJson = List(exact.length()) { idx -> exact.getString(idx) }
+            (fromJson + defaultPhrases).distinct()
         } catch (e: Exception) {
-            listOf("ai-generated", "creator labeled as ai-generated", "disclosed by creator as ai-generated", "dijana ai")
+            defaultPhrases
         }
     }
 

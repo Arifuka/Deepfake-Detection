@@ -5,4 +5,5 @@
     android:canRetrieveWindowContent="true"
     android:notificationTimeout="300"
     android:description="@string/accessibility_service_description"
-    android:packageNames="com.ss.android.ugc.trill,com.zhiliaoapp.musically" />
+    android:packageNames="com.ss.android.ugc.trill,com.zhiliaoapp.musically"
+    android:accessibilityFlags="flagReportViewIds|flagRetrieveInteractiveWindows|flagIncludeNotImportantViews"/>
