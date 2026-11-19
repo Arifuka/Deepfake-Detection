@@ -28,23 +28,35 @@ class MainActivity : ComponentActivity() {
 
     private val projectionLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { r ->
+            // check if user betul2 tekan "start now", not cancel.
+            // r.data = token from android untuk baca screen
             if (r.resultCode == Activity.RESULT_OK && r.data != null) {
+                // envelope, result code, truth token inside it
                 val i = Intent(this, CaptureService::class.java)
                     .putExtra(CaptureService.EXTRA_CODE, r.resultCode)
                     .putExtra(CaptureService.EXTRA_DATA, r.data)
+                // foreground service so bila user exit from edgeguard and bukak tiktok,
+                // android tak terminate service screen detection
                 ContextCompat.startForegroundService(this, i)
             }
         }
 
     private val notifLauncher =
+        //box receiver answer after user click allow/deny on popup notif
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { askProjection() }
 
     private fun askProjection() {
+        // manager system android for recording/screen record @ shot
         val mpm = getSystemService(MediaProjectionManager::class.java)
+        // works on dialogue system Android yang tanya start record/casting with edgeguard?
         projectionLauncher.launch(mpm.createScreenCaptureIntent())
     }
 
     private fun startProtection() {
+        //Android 13/API 33 must ask permission POST_NOTIF before app
+        //can show notif foreground service
+        //if/else: if belum allow notif permission, buka popup dulu, else
+        // terus jump ke askProjection()
         if (Build.VERSION.SDK_INT >= 33 &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
             != PackageManager.PERMISSION_GRANTED
@@ -52,12 +64,16 @@ class MainActivity : ComponentActivity() {
         else askProjection()
     }
 
+    // send Intent to CaptService dgn arahan ACTION STOP so service stop screen record
+    // then set semula edgeguard state to protectionstate.off
     private fun stopProtection() {
         startService(Intent(this, CaptureService::class.java).setAction(CaptureService.ACTION_STOP))
     }
-
+//first function that android call when app is opened
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    // panggil dua remote control (onstart and onstop) so UI screen can call func
+    // startProtection and stopProtect dalam MainActivity
         setContent {
             EdgeGuardTheme {
                 MainScreen(onStart = { startProtection() }, onStop = { stopProtection() })
@@ -68,6 +84,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(onStart: () -> Unit, onStop: () -> Unit) {
+    // MainScreen listens to change on EdgeGuardState.state
     val state by EdgeGuardState.state.collectAsState()
     Column(
         Modifier.fillMaxSize().padding(24.dp),
@@ -75,6 +92,7 @@ fun MainScreen(onStart: () -> Unit, onStop: () -> Unit) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
+                // ambil text dari strings.xml, automatic tukar dual lang based on phone's lang
                 stringResource(R.string.section_protection),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.weight(1f)
