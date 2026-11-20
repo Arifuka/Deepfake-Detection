@@ -67,14 +67,15 @@ class CaptureService : Service() {
     private var latestDetectionSource = "Visual & Frequency Analysis"
 
     override fun onBind(intent: Intent?): IBinder? = null
-
+// companion constants and command routing
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == ACTION_STOP) {
-            stopSelf()
+            stopSelf() // the service immediately triggers cleanup stopself() and shutdown
             return START_NOT_STICKY
         }
         startAsForeground()
-
+///otherwise, extracts extra_code and extra_data and update edgeguardstate so UI switch reflects
+    /// that protection is active
         val code = intent?.getIntExtra(EXTRA_CODE, 0) ?: 0
         val data: Intent? = if (Build.VERSION.SDK_INT >= 33)
             intent?.getParcelableExtra(EXTRA_DATA, Intent::class.java)
@@ -82,7 +83,9 @@ class CaptureService : Service() {
 
         if (data == null) {
             stopSelf()
-            return START_NOT_STICKY
+            return START_NOT_STICKY  // tells Android not to automatically
+                                    //- restart the service if killed, bcs MediaProjection secuirty tokens
+                                    //-cannot be reused after a crash
         }
         startCapture(code, data)
         EdgeGuardState.set(ProtectionState.On)
@@ -90,6 +93,8 @@ class CaptureService : Service() {
     }
 
     private fun startAsForeground() {
+        //Android strictly blocks background apps from silently recording screen
+        //-unless user sees a persistent status bar notif
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val nm = getSystemService(NotificationManager::class.java)
             nm.createNotificationChannel(
@@ -140,7 +145,7 @@ class CaptureService : Service() {
     private fun startCapture(code: Int, data: Intent) {
         thread = HandlerThread("edgeguard-capture").also { it.start() }
         val handler = Handler(thread!!.looper)
-
+            // MediaProjection: The authorized screen-capture session unlocked by the user's permission token.
         val mpm = getSystemService(MediaProjectionManager::class.java)
         val p = mpm.getMediaProjection(code, data)
         if (p == null) {
@@ -166,13 +171,19 @@ class CaptureService : Service() {
         val dm = resources.displayMetrics
         val w = dm.widthPixels
         val h = dm.heightPixels
+        // ImageReader: : A memory buffer configured in RGBA_8888 pixel format that acts like
+        // a digital film roll catching incoming frames (maxImages = 2 keeps memory usage tiny).
         val r = ImageReader.newInstance(w, h, PixelFormat.RGBA_8888, 2)
         reader = r
+        //VirtualDisplay: An invisible mirror of the phone screen that projects
+        // -live tiktok pixels directly into the ImageReader's surface
         display = p.createVirtualDisplay(
             "edgeguard", w, h, dm.densityDpi,
             DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
             r.surface, null, handler
         )
+        // TikTok renders at 60-120 frames per second, which would overheat
+        // -the phone if EdgeGuard ran OCR/AI on every single frame
 
         r.setOnImageAvailableListener({ ir ->
             val img = ir.acquireLatestImage() ?: return@setOnImageAvailableListener
@@ -370,13 +381,18 @@ class CaptureService : Service() {
         interpreter?.close()
         tfliteRunner?.close()
         thread?.quitSafely()
+        // Ensures zero memory leaks and turns off Android's "casting/recording" status
+        //-icon the moment the user toggles EdgeGuard OFF.
         EdgeGuardState.set(ProtectionState.Off)
         super.onDestroy()
     }
 
     companion object {
-        const val ACTION_STOP = "edgeguard.STOP"
-        const val EXTRA_CODE = "code"
+        // Everytime MainActivity calls startForegroundService() or startService(),
+        //Android delivers that Intent to onStartCommand()
+        const val ACTION_STOP = "edgeguard.STOP" //service triggers cleanup stopSelf()and//shuts down
+        const val EXTRA_CODE = "code" // the permission Intent token from Android's screen capture dialogue
+        // and updates EdgeGuardstates so UI switch reflects that protection is active
         const val EXTRA_DATA = "data"
         private const val CHANNEL_ID = "edgeguard_capture"
         private const val ALERT_THR = 0.70f   // a frame counts as "fake" above this
